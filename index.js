@@ -1,9 +1,13 @@
+// inspired from https://g-liu.com/blog/2013/08/tutorial-basic-carouselslideshow-with-javascript/
+
 // direction = boolean value: true or false. If true, go to NEXT slide; otherwise go to PREV slide
-function toggleSlide(direction) {
+function toggleSlide(direction, async = false) {
     var elements = document.getElementsByClassName("hideable"); // gets all the "slides" in our slideshow
     // Find the LI that's currently displayed
     var visibleID = getVisible(elements);
+    if(async && direction && visibleID == elements.length-1) return;
     elements[visibleID].style.display = "none"; // hide the currently visible LI
+
     if(!direction) {
         var makeVisible = prev(visibleID, elements.length); // get the previous slide
     } else {
@@ -28,6 +32,17 @@ function next(num, arrayLength) {
     if(num == arrayLength-1) return 0;
     else return num+1;
 }
+var switching;
+function loopInfite() {
+    var interval = 3000;
+    switching = setInterval("toggleSlide(true)", interval);
+}
 
-var interval = 3000; // You can change this value to your desired speed. The value is in milliseconds, so if you want to advance a slide every 5 seconds, set this to 5000.
-var switching = setInterval("toggleSlide(true)", interval);
+function async() {
+    if(switching) {
+        clearInterval(switching);
+    }
+    var interval = 3000;
+    switching = setInterval("toggleSlide(true, true)", interval);
+}
+
