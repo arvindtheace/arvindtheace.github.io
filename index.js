@@ -34,6 +34,11 @@ function next(num, arrayLength) {
 }
 var switching;
 function loopInfite() {
+    if(switching) {
+        clearInterval(switching);
+    }
+    document.getElementById('mode').innerHTML = 'infinite loop mode'
+    
     var interval = 3000;
     switching = setInterval("toggleSlide(true)", interval);
 }
@@ -42,7 +47,9 @@ function async() {
     if(switching) {
         clearInterval(switching);
     }
+    document.getElementById('mode').innerHTML = 'async mode'
     var interval = 3000;
     switching = setInterval("toggleSlide(true, true)", interval);
 }
 
+loopInfite();
